@@ -14,7 +14,8 @@ import {
 } from 'react-native-dotenv';
 import firebase from 'firebase';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import rootReducer from './reducers';
 import { Header } from './views/common';
 import LoginForm from './views/LoginForm';
@@ -32,8 +33,9 @@ class App extends Component {
   }
   
   render() {
+    const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk));
     return (
-      <Provider store={createStore(rootReducer)}>
+      <Provider store={store}>
         <View style={styles.container}>
           <Header headerText='Scheduler' />
           <LoginForm />

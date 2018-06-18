@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Input, Button, Spinner } from './common';
 import * as actions from '../actions';
 
 class LoginForm extends Component {
@@ -12,6 +13,31 @@ class LoginForm extends Component {
     onPasswordChange(text) {
         this.props.passwordChanged(text);
     }
+
+    onButtonPress() {
+        const { email, password } = this.props;
+        this.props.loginUser({ email, password });
+    }
+
+    renderError() {
+        if (this.props.error) {
+            return (
+                <View style={styles.errorViewStyle}>
+                    <Text style={styles.errorTextStyle}>
+                        {this.props.error}
+                    </Text>
+                </View>
+            );
+        }
+    }
+
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner />;
+        }
+        return <Button onPress={this.onButtonPress.bind(this)}>Login</Button>;
+    }
+
     render() {
         return (
             <Card>
@@ -32,8 +58,9 @@ class LoginForm extends Component {
                         value={this.props.password}
                     />
                 </CardSection>
+                {this.renderError()}
                 <CardSection>
-                    <Button>Login</Button>
+                    {this.renderButton()}
                 </CardSection>
             </Card>
         );
@@ -43,8 +70,23 @@ class LoginForm extends Component {
 const mapStateToProps = (state) => {
     return {
         email: state.auth.email,
-        password: state.auth.password
+        password: state.auth.password,
+        error: state.auth.error,
+        loading: state.auth.loading
     };
 };
+
+const styles = StyleSheet.create({
+    errorViewStyle: {
+        backgroundColor: 'white'
+    },
+    errorTextStyle: {
+        color: 'red',
+        alignSelf: 'center',
+        fontSize: 20,
+        fontWeight: 'bold'
+    }
+});
+
 
 export default connect(mapStateToProps, actions)(LoginForm);
