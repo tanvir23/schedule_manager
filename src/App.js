@@ -17,6 +17,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducers';
 import { Header } from './views/common';
+import LoginForm from './views/LoginForm';
 
 class App extends Component {
   componentWillMount = () => {
@@ -35,6 +36,7 @@ class App extends Component {
       <Provider store={createStore(rootReducer)}>
         <View style={styles.container}>
           <Header headerText='Scheduler' />
+          <LoginForm />
         </View>
       </Provider>
       
