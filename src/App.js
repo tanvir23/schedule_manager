@@ -1,9 +1,5 @@
 
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View
-} from 'react-native';
 import { 
   FireBaseAPIKey,
   FireBaseAuthDomain,
@@ -16,9 +12,11 @@ import firebase from 'firebase';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
+import { YellowBox } from 'react-native';
 import rootReducer from './reducers';
-import { Header } from './views/common';
-import LoginForm from './views/LoginForm';
+import Router from './Router';
+
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 class App extends Component {
   componentWillMount = () => {
@@ -36,21 +34,11 @@ class App extends Component {
     const store = createStore(rootReducer, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <View style={styles.container}>
-          <Header headerText='Scheduler' />
-          <LoginForm />
-        </View>
+        <Router />
       </Provider>
       
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'gray'
-  }
-});
 
 export default App;
