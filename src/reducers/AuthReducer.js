@@ -3,8 +3,8 @@ import {
 } from '../actions/action_types';
 
 const initialState = {
-    email: '',
-    password: '',
+    email: 'tanvir@nltvc.com',
+    password: '123ewq',
     user: null,
     error: '',
     loading: false
